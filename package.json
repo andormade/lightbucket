@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "puppeteer": "11.0.0"
+  },
+  "name": "cautious-barnacle",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andormade/cautious-barnacle.git"
+  },
+  "author": "Andor Polgar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andormade/cautious-barnacle/issues"
+  },
+  "homepage": "https://github.com/andormade/cautious-barnacle#readme",
+  "devDependencies": {
+    "@types/puppeteer": "5.4.4",
+    "ts-node": "^10.4.0"
+  }
+}
