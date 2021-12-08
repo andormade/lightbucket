@@ -3,12 +3,15 @@ import {
   getViewportHeight,
   getVisibleImadeIds,
   scroll,
-} from "./injectableUtils";
+} from "../injectableUtils";
+import { config } from "dotenv";
+
+config();
 
 const delay = (delay: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, delay));
 
-const ADOBE_SHARE_ID = "6892a9cafe934a238ba5b3984628e6f2";
+const { ADOBE_SHARE_ID = "" } = process.env;
 
 function getDownloadLink(assetId: string): string {
   return (
@@ -39,7 +42,7 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 (async () => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto("https://adobe.ly/2Z1UQw8");
+  await page.goto("https://lightroom.adobe.com/shares/" + ADOBE_SHARE_ID);
   await page.waitForSelector(".image");
 
   await delay(2000);
@@ -55,6 +58,7 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
   for (let i = 0; i < images.length; i++) {
     const imagePermalink = getDownloadLink(images[i]);
     await page.evaluate((link) => {
+      // @ts-ignore
       location.href = link;
     }, imagePermalink);
     await delay(1000);

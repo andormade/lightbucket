@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "aws-sdk": "2.1044.0",
+    "dotenv": "10.0.0",
     "puppeteer": "11.0.0"
   },
   "name": "cautious-barnacle",
@@ -8,7 +10,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts"
+    "start": "ts-node scripts/download.ts && ts-node scripts/upload.ts"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,6 @@
   "homepage": "https://github.com/andormade/cautious-barnacle#readme",
   "devDependencies": {
     "@types/puppeteer": "5.4.4",
-    "ts-node": "^10.4.0"
+    "ts-node": "10.4.0"
   }
 }
