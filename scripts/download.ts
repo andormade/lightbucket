@@ -40,6 +40,8 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 }
 
 (async () => {
+  console.log("Launching puppeteer...");
+
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto("https://lightroom.adobe.com/shares/" + ADOBE_SHARE_ID);

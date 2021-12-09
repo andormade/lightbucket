@@ -22,7 +22,7 @@ config();
       s3.putObject(
         {
           Bucket: process.env.DESTINATION_BUCKET || "",
-          Key: path.join((process.env.DESTINATION_PATH || "") + files[i]),
+          Key: path.join(process.env.DESTINATION_PATH || "", files[i]),
           Body: content,
           ACL: "public-read",
           ContentType: "image/jpg",
