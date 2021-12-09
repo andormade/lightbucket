@@ -15,6 +15,9 @@ config();
   const files = await fs.readdir("./downloads");
   for (let i = 0; i < files.length; i++) {
     const content = await fs.readFile("./downloads/" + files[i]);
+
+    console.log("Uploading image:", files[i]);
+
     await new Promise((resolve, reject) => {
       s3.putObject(
         {

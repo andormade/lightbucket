@@ -3,7 +3,7 @@ import {
   getViewportHeight,
   getVisibleImadeIds,
   scroll,
-} from "../injectableUtils";
+} from "./injectableUtils";
 import { config } from "dotenv";
 
 config();
@@ -47,7 +47,9 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 
   await delay(2000);
 
+  console.log("Collection images...");
   const images = await collectImageIds(page);
+  console.log("Found " + images.length + " images.");
 
   // @ts-ignore
   await page._client.send("Page.setDownloadBehavior", {
@@ -57,6 +59,7 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 
   for (let i = 0; i < images.length; i++) {
     const imagePermalink = getDownloadLink(images[i]);
+    console.log("Downloading image:", images[i]);
     await page.evaluate((link) => {
       // @ts-ignore
       location.href = link;
