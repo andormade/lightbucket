@@ -32,12 +32,7 @@ async function waitForDownloadsToFinish(downloadPath: string): Promise<void> {
 const { ADOBE_SHARE_ID = "" } = process.env;
 
 function getDownloadLink(assetId: string): string {
-  return (
-    "https://dl.lightroom.adobe.com/spaces/" +
-    ADOBE_SHARE_ID +
-    "/assets/" +
-    assetId
-  );
+  return `https://dl.lightroom.adobe.com/spaces/${ADOBE_SHARE_ID}/assets/${assetId}`;
 }
 
 async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
@@ -62,14 +57,14 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto("https://lightroom.adobe.com/shares/" + ADOBE_SHARE_ID);
+  await page.goto(`https://lightroom.adobe.com/shares/${ADOBE_SHARE_ID}`);
   await page.waitForSelector(".image");
 
   await delay(2000);
 
   console.log("Collecting images...");
   const images = await collectImageIds(page);
-  console.log("Found " + images.length + " images.");
+  console.log(`Found ${images.length} images.`);
 
   const downloadPath = `./downloads/${new Date().getTime()}`;
 
@@ -83,7 +78,7 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 
   for (let i = 0; i < images.length; i++) {
     const imagePermalink = getDownloadLink(images[i]);
-    console.log("Downloading image:", images[i]);
+    console.log("Started downloading image:", images[i]);
     await page.evaluate((link) => {
       // @ts-ignore
       location.href = link;
@@ -91,6 +86,7 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
     await delay(1000);
   }
 
+  console.log("Waiting for downloads to finish...");
   await waitForDownloadsToFinish(downloadPath);
 
   await browser.close();

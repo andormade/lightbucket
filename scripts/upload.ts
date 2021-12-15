@@ -19,7 +19,9 @@ async function hash(file: string): Promise<string | undefined> {
 
 async function getFilesToUpload(): Promise<string[]> {
   const downloadDirs = await fs.readdir("./downloads");
-  const [lastDownloadDir, previousDownloadDir] = downloadDirs.sort().reverse();
+  const [lastDownloadDir, previousDownloadDir = ""] = downloadDirs
+    .sort()
+    .reverse();
   const lastFiles = await fs.readdir(path.join("./downloads", lastDownloadDir));
   const files = await Promise.all<[string, boolean]>(
     lastFiles.map<Promise<[string, boolean]>>(async (file) => {
@@ -46,7 +48,7 @@ async function getFilesToUpload(): Promise<string[]> {
   });
   const files = await getFilesToUpload();
 
-  console.log("Found " + files.length + " new images to upload.");
+  console.log(`Found ${files.length} new images to upload.`);
 
   for (let i = 0; i < files.length; i++) {
     const content = await fs.readFile(files[i]);
