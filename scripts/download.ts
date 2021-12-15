@@ -5,11 +5,29 @@ import {
   scroll,
 } from "./injectableUtils";
 import { config } from "dotenv";
+import { ensureDir } from "fs-extra";
+import { promises as fs } from "fs";
+import path from "path";
 
 config();
 
 const delay = (delay: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, delay));
+
+async function waitForDownloadsToFinish(downloadPath: string): Promise<void> {
+  return new Promise((resolve) => {
+    const interval = setInterval(async () => {
+      const files = await fs.readdir(downloadPath);
+      const hasCrdownloadFile = files.some(
+        (file) => path.extname(file) === ".crdownload"
+      );
+      if (!hasCrdownloadFile) {
+        resolve();
+        clearInterval(interval);
+      }
+    }, 1000);
+  });
+}
 
 const { ADOBE_SHARE_ID = "" } = process.env;
 
@@ -49,14 +67,18 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 
   await delay(2000);
 
-  console.log("Collection images...");
+  console.log("Collecting images...");
   const images = await collectImageIds(page);
   console.log("Found " + images.length + " images.");
+
+  const downloadPath = `./downloads/${new Date().getTime()}`;
+
+  await ensureDir(downloadPath);
 
   // @ts-ignore
   await page._client.send("Page.setDownloadBehavior", {
     behavior: "allow",
-    downloadPath: "./downloads",
+    downloadPath,
   });
 
   for (let i = 0; i < images.length; i++) {
@@ -69,6 +91,7 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
     await delay(1000);
   }
 
-  await delay(10000);
+  await waitForDownloadsToFinish(downloadPath);
+
   await browser.close();
 })();

@@ -2,6 +2,7 @@
   "dependencies": {
     "aws-sdk": "2.1044.0",
     "dotenv": "10.0.0",
+    "fs-extra": "10.0.0",
     "puppeteer": "11.0.0"
   },
   "name": "cautious-barnacle",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/andormade/cautious-barnacle#readme",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
     "@types/puppeteer": "5.4.4",
     "ts-node": "10.4.0"
   }
