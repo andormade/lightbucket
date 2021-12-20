@@ -1,4 +1,4 @@
 node_modules
-.barnacle-cache
+.lightbucket-cache
 bin
-.barnaclerc
+.lightbucketrc

@@ -1,4 +1,4 @@
-# cautious-barnacle
+# lightbucket
 
 This is an automation that downloads images from a shared lightroom album.
 

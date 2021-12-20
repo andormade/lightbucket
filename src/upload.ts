@@ -5,13 +5,13 @@ import { createHash } from "crypto";
 import { pathExists } from "fs-extra";
 import rc from "rc";
 
-const config = rc("barnacle", {
+const config = rc("lightbucket", {
   awsEndpoint: "",
   accessKey: "",
   secretKey: "",
   destinationBucket: "",
   destinationPath: "",
-  cacheDir: ".barnacle-cache",
+  cacheDir: ".lightbucket-cache",
 });
 
 async function hash(file: string): Promise<string | undefined> {

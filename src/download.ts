@@ -9,9 +9,9 @@ import { ensureDir } from "fs-extra";
 import { promises as fs } from "fs";
 import path from "path";
 
-const config = rc("barnacle", {
+const config = rc("lightbucket", {
   adobeShareId: "",
-  cacheDir: ".barnacle-cache",
+  cacheDir: ".lightbucket-cache",
 });
 
 const delay = (delay: number): Promise<void> =>

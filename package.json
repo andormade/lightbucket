@@ -6,12 +6,12 @@
     "puppeteer": "11.0.0",
     "rc": "1.2.8"
   },
-  "name": "cautious-barnacle",
-  "description": "",
+  "name": "lightbucket",
+  "description": "Uploads photos from a shared lightroom album to an AWS S3-compatible bucket",
   "version": "1.0.0",
   "main": "bin/index.js",
   "bin": {
-    "barnacle": "bin/index.js"
+    "lightbucket": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andormade/cautious-barnacle.git"
+    "url": "git+https://github.com/andormade/lightbucket.git"
   },
   "author": "Andor Polgar",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andormade/cautious-barnacle/issues"
+    "url": "https://github.com/andormade/lightbucket/issues"
   },
-  "homepage": "https://github.com/andormade/cautious-barnacle#readme",
+  "homepage": "https://github.com/andormade/lightbucket#readme",
   "devDependencies": {
     "@types/fs-extra": "9.0.13",
     "@types/puppeteer": "5.4.4",
