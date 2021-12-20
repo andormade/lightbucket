@@ -1,4 +1,4 @@
 node_modules
-.cache
+.barnacle-cache
 bin
 .barnaclerc

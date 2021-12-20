@@ -11,6 +11,7 @@ const config = rc("barnacle", {
   secretKey: "",
   destinationBucket: "",
   destinationPath: "",
+  cacheDir: ".barnacle-cache",
 });
 
 async function hash(file: string): Promise<string | undefined> {
@@ -24,16 +25,22 @@ async function hash(file: string): Promise<string | undefined> {
 }
 
 async function getFilesToUpload(): Promise<string[]> {
-  const downloadDirs = await fs.readdir("./.cache");
+  const downloadDirs = await fs.readdir(`./${config.cacheDir}`);
   const [lastDownloadDir, previousDownloadDir = ""] = downloadDirs
     .sort()
     .reverse();
-  const lastFiles = await fs.readdir(path.join("./.cache", lastDownloadDir));
+  const lastFiles = await fs.readdir(
+    path.join(`./${config.cacheDir}`, lastDownloadDir)
+  );
   const files = await Promise.all<[string, boolean]>(
     lastFiles.map<Promise<[string, boolean]>>(async (file) => {
-      const lastDownloadFile = path.join("./.cache", lastDownloadDir, file);
+      const lastDownloadFile = path.join(
+        `./${config.cacheDir}`,
+        lastDownloadDir,
+        file
+      );
       const previousDownloadFile = path.join(
-        "./.cache",
+        `./${config.cacheDir}`,
         previousDownloadDir,
         file
       );

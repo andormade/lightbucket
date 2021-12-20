@@ -11,6 +11,7 @@ import path from "path";
 
 const config = rc("barnacle", {
   adobeShareId: "",
+  cacheDir: ".barnacle-cache",
 });
 
 const delay = (delay: number): Promise<void> =>
@@ -66,7 +67,7 @@ export default async function download() {
   const images = await collectImageIds(page);
   console.log(`Found ${images.length} images.`);
 
-  const downloadPath = `./.cache/${new Date().getTime()}`;
+  const downloadPath = `./${config.cacheDir}/${new Date().getTime()}`;
 
   await ensureDir(downloadPath);
 
