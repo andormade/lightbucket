@@ -4,12 +4,14 @@ import {
   getVisibleImadeIds,
   scroll,
 } from "./injectableUtils";
-import { config } from "dotenv";
+import rc from "rc";
 import { ensureDir } from "fs-extra";
 import { promises as fs } from "fs";
 import path from "path";
 
-config();
+const config = rc("barnacle", {
+  adobeShareId: "",
+});
 
 const delay = (delay: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, delay));
@@ -29,10 +31,8 @@ async function waitForDownloadsToFinish(downloadPath: string): Promise<void> {
   });
 }
 
-const { ADOBE_SHARE_ID = "" } = process.env;
-
 function getDownloadLink(assetId: string): string {
-  return `https://dl.lightroom.adobe.com/spaces/${ADOBE_SHARE_ID}/assets/${assetId}`;
+  return `https://dl.lightroom.adobe.com/spaces/${config.adobeShareId}/assets/${assetId}`;
 }
 
 async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
@@ -52,12 +52,12 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
   return Array.from(imageIds);
 }
 
-(async () => {
+export default async function download() {
   console.log("Launching puppeteer...");
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(`https://lightroom.adobe.com/shares/${ADOBE_SHARE_ID}`);
+  await page.goto(`https://lightroom.adobe.com/shares/${config.adobeShareId}`);
   await page.waitForSelector(".image");
 
   await delay(2000);
@@ -66,7 +66,7 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
   const images = await collectImageIds(page);
   console.log(`Found ${images.length} images.`);
 
-  const downloadPath = `./downloads/${new Date().getTime()}`;
+  const downloadPath = `./.cache/${new Date().getTime()}`;
 
   await ensureDir(downloadPath);
 
@@ -90,4 +90,4 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
   await waitForDownloadsToFinish(downloadPath);
 
   await browser.close();
-})();
+}

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "bin",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "allowJs": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

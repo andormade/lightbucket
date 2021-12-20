@@ -1,11 +1,17 @@
 import AWS from "aws-sdk";
 import { promises as fs } from "fs";
 import path from "path";
-import { config } from "dotenv";
 import { createHash } from "crypto";
 import { pathExists } from "fs-extra";
+import rc from "rc";
 
-config();
+const config = rc("barnacle", {
+  awsEndpoint: "",
+  accessKey: "",
+  secretKey: "",
+  destinationBucket: "",
+  destinationPath: "",
+});
 
 async function hash(file: string): Promise<string | undefined> {
   if (!(await pathExists(file))) {
@@ -18,16 +24,16 @@ async function hash(file: string): Promise<string | undefined> {
 }
 
 async function getFilesToUpload(): Promise<string[]> {
-  const downloadDirs = await fs.readdir("./downloads");
+  const downloadDirs = await fs.readdir("./.cache");
   const [lastDownloadDir, previousDownloadDir = ""] = downloadDirs
     .sort()
     .reverse();
-  const lastFiles = await fs.readdir(path.join("./downloads", lastDownloadDir));
+  const lastFiles = await fs.readdir(path.join("./.cache", lastDownloadDir));
   const files = await Promise.all<[string, boolean]>(
     lastFiles.map<Promise<[string, boolean]>>(async (file) => {
-      const lastDownloadFile = path.join("./downloads", lastDownloadDir, file);
+      const lastDownloadFile = path.join("./.cache", lastDownloadDir, file);
       const previousDownloadFile = path.join(
-        "./downloads",
+        "./.cache",
         previousDownloadDir,
         file
       );
@@ -39,12 +45,12 @@ async function getFilesToUpload(): Promise<string[]> {
   return files.filter(([file, isNew]) => isNew).map<string>(([file]) => file);
 }
 
-(async function uploadFiles() {
-  const spacesEndpoint = new AWS.Endpoint(process.env.AWS_ENDPOINT || "");
+export default async function uploadFiles() {
+  const spacesEndpoint = new AWS.Endpoint(config.awsEndpoint);
   const s3 = new AWS.S3({
     endpoint: spacesEndpoint,
-    accessKeyId: process.env.ACCESS_KEY || "",
-    secretAccessKey: process.env.SECRET_KEY || "",
+    accessKeyId: config.accessKey,
+    secretAccessKey: config.secretKey,
   });
   const files = await getFilesToUpload();
 
@@ -59,8 +65,8 @@ async function getFilesToUpload(): Promise<string[]> {
     await new Promise((resolve, reject) => {
       s3.putObject(
         {
-          Bucket: process.env.DESTINATION_BUCKET || "",
-          Key: path.join(process.env.DESTINATION_PATH || "", fileName),
+          Bucket: config.destinationBucket,
+          Key: path.join(config.destinationPath, fileName),
           Body: content,
           ACL: "public-read",
           ContentType: "image/jpg",
@@ -75,4 +81,4 @@ async function getFilesToUpload(): Promise<string[]> {
       );
     });
   }
-})();
+}
