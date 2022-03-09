@@ -8,7 +8,7 @@
   },
   "name": "lightbucket",
   "description": "Uploads photos from a shared lightroom album to an AWS S3-compatible bucket",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "bin/index.js",
   "bin": {
     "lightbucket": "bin/index.js"
@@ -17,6 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node scripts/download.ts && ts-node scripts/upload.ts",
     "build": "tsc",
+    "prepublish": "npm run build",
     "postinstall": "npm run build"
   },
   "repository": {

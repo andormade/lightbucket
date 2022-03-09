@@ -56,7 +56,10 @@ async function collectImageIds(page: puppeteer.Page): Promise<string[]> {
 export default async function download() {
   console.log("Launching puppeteer...");
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ["--disable-dev-shm-usage", "--no-sandbox"],
+  });
+
   const page = await browser.newPage();
   await page.goto(`https://lightroom.adobe.com/shares/${config.adobeShareId}`);
   await page.waitForSelector(".image");
