@@ -57,7 +57,11 @@ export default async function download() {
   console.log("Launching puppeteer...");
 
   const browser = await puppeteer.launch({
-    args: ["--disable-dev-shm-usage", "--no-sandbox"],
+    args: [
+      "--disable-dev-shm-usage",
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+    ],
   });
 
   const page = await browser.newPage();

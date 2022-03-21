@@ -3,19 +3,19 @@
     "aws-sdk": "2.1044.0",
     "dotenv": "10.0.0",
     "fs-extra": "10.0.0",
-    "puppeteer": "11.0.0",
-    "rc": "1.2.8"
+    "puppeteer": "13.5.1",
+    "rc": "^1.2.8"
   },
   "name": "lightbucket",
   "description": "Uploads photos from a shared lightroom album to an AWS S3-compatible bucket",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "main": "bin/index.js",
   "bin": {
     "lightbucket": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node scripts/download.ts && ts-node scripts/upload.ts",
+    "start": "ts-node src/index.ts",
     "build": "tsc",
     "prepublish": "npm run build",
     "postinstall": "npm run build"
@@ -34,6 +34,7 @@
     "@types/fs-extra": "9.0.13",
     "@types/puppeteer": "5.4.4",
     "@types/rc": "1.2.0",
+    "ts-node": "10.7.0",
     "typescript": "4.5.4"
   }
 }
