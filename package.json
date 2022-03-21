@@ -4,7 +4,7 @@
     "dotenv": "10.0.0",
     "fs-extra": "10.0.0",
     "puppeteer": "13.5.1",
-    "rc": "^1.2.8"
+    "rc": "1.2.8"
   },
   "name": "lightbucket",
   "description": "Uploads photos from a shared lightroom album to an AWS S3-compatible bucket",
@@ -17,8 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "prepublish": "npm run build",
-    "postinstall": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",

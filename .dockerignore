@@ -1,0 +1,6 @@
+Dockerfile
+node_modules
+.lightbucket-cache
+.git
+.gitignore
+bin
