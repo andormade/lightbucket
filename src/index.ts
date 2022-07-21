@@ -4,6 +4,6 @@ import download from "./download";
 import uploadFiles from "./upload";
 
 (async () => {
-  await download();
+  download();
   await uploadFiles();
 })();

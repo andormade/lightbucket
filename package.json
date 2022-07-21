@@ -3,12 +3,12 @@
     "aws-sdk": "2.1044.0",
     "dotenv": "10.0.0",
     "fs-extra": "10.0.0",
-    "puppeteer": "13.5.1",
+    "lightroom-gallery-downloader": "1.0.0",
     "rc": "1.2.8"
   },
   "name": "lightbucket",
   "description": "Uploads photos from a shared lightroom album to an AWS S3-compatible bucket",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "main": "bin/index.js",
   "bin": {
     "lightbucket": "bin/index.js"
@@ -31,7 +31,6 @@
   "homepage": "https://github.com/andormade/lightbucket#readme",
   "devDependencies": {
     "@types/fs-extra": "9.0.13",
-    "@types/puppeteer": "5.4.4",
     "@types/rc": "1.2.0",
     "ts-node": "10.7.0",
     "typescript": "4.5.4"

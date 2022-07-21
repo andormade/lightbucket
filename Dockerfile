@@ -21,4 +21,4 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-CMD [ "npx", "ts-node", "src/index.ts" ]
+CMD [ "npm", "run", "start" ]
